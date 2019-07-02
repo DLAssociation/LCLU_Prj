@@ -5,6 +5,7 @@ import scipy.io as scio
 import pandas as pd
 import cv2
 from matplotlib import pyplot as plt
+from osgeo import gdal
 
 
 def resolve_json(path):
@@ -93,7 +94,9 @@ def get_img(imgs, index):
 
 
 def show_img(img):
-    cv2.imshow('image', img)
+    plt.imshow(img, cmap='gray', interpolation='bicubic')
+    plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
+    plt.show()
 
 
 def get_annotation(sat_name='sat-6-full'):
@@ -107,11 +110,6 @@ def get_annotation(sat_name='sat-6-full'):
 
 
 def main():
-    img = cv2.imread('1.jpg')
-    show_img(img)
-    plt.imshow(img, cmap='gray', interpolation='bicubic')
-    plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
-    plt.show()
     print('test')
 
 

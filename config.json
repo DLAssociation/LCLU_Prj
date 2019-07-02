@@ -1,4 +1,6 @@
 {
-  "name": "data_root_directory",
-  "value": "/media/ifei/56DE3173DE314C8D/data/SAT-4_and_SAT-6_datasets"
+  "directories":[
+    {"name": "data_root_directory", "value": "/media/ifei/56DE3173DE314C8D/data/SAT-4_and_SAT-6_datasets/"},
+    {"name": "csv_data_root_directory" , "value": "/media/ifei/56DE3173DE314C8D/data/SAT-4_and_SAT-6_datasets/CSVs/"}
+  ]
 }

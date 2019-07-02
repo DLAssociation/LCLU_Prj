@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import numpy as np
 import json
 import scipy.io as scio
 import pandas as pd
@@ -28,7 +29,7 @@ def read_config(path='config.json', config_name='data_root_directory'):
     :return: value of correspongding configure name
     """
     f_json = resolve_json(path)
-    if f_json["name"] == config_name:
+    if f_json["directories"]["name"] == config_name:
         value = f_json["value"]
 
     return value
@@ -63,7 +64,7 @@ def fetch_sat_mat(sat_name='sat-6-full'):
     """
 
     # Read directory of SAT data
-    sat_dir = read_config('config.json', 'data_root_directory') + "/" + sat_name + '.mat'
+    sat_dir = read_config('config.json', 'data_root_directory') + sat_name + '.mat'
 
     sat_data = scio.loadmat(sat_dir)
     # sat_train_x = sat_data.get('train_x')
@@ -84,9 +85,14 @@ def get_imgs(sat_name='sat-6-full', column_name='train_x'):
     test_y         --------------    6x81000        double (containing 6x1 vectors having labels for the 81000 test samples)
     annotations    --------------    6x2            cell   (containing the class label annotations for the 6 classes of SAT-6)
     """
-    img = fetch_sat_mat(sat_name).get(column_name)
-    print('The shape of ', column_name, ' is ', img.shape)
-    return img
+    imgs = fetch_sat_mat(sat_name).get(column_name)
+    print('The shape of ', column_name, ' is ', imgs.shape)
+    return imgs
+
+
+def csv_writer(csv_name, img_narray):
+    csv_dir = read_config('config.json', 'data_root_directory') + csv_name + '.csv'
+    pd.DataFrame(img_narray).to_csv(csv_dir, header=None, index=None)
 
 
 def get_img(imgs, index):
@@ -109,7 +115,30 @@ def get_annotation(sat_name='sat-6-full'):
     return note
 
 
+def load_data_and_labels(data_name, labels):
+    """
+    function to load data and labels
+    :param data:
+    :param labels:
+    :return:
+    """
+    data_df = pd.read_csv(data_name, header=None)
+    X = data_df.values.reshape((-1, 28, 28, 4)).clip(0, 255).astype(np.uint8)
+    labels_df = pd.read_csv(labels, header=None)
+    Y = labels_df.values.getfield(dtype=np.int8)
+    return X, Y
+
+def run_once():
+    """
+    only run once
+    :return:
+    """
+    img_x = get_imgs('sat-6-full', 'train_x')
+    csv_writer('sat-6_train_x', img_x)
+
+
 def main():
+    run_once()
     print('test')
 
 

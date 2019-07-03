@@ -29,8 +29,9 @@ def read_config(path='config.json', config_name='data_root_directory'):
     :return: value of correspongding configure name
     """
     f_json = resolve_json(path)
-    if f_json["directories"]["name"] == config_name:
-        value = f_json["value"]
+    for item in f_json['directories']:
+        if item['name'] == config_name:
+            value = item['value']
 
     return value
 
@@ -65,7 +66,6 @@ def fetch_sat_mat(sat_name='sat-6-full'):
 
     # Read directory of SAT data
     sat_dir = read_config('config.json', 'data_root_directory') + sat_name + '.mat'
-
     sat_data = scio.loadmat(sat_dir)
     # sat_train_x = sat_data.get('train_x')
     return sat_data
@@ -91,7 +91,7 @@ def get_imgs(sat_name='sat-6-full', column_name='train_x'):
 
 
 def csv_writer(csv_name, img_narray):
-    csv_dir = read_config('config.json', 'data_root_directory') + csv_name + '.csv'
+    csv_dir = read_config('config.json', 'csv_data_root_directory') + csv_name + '.csv'
     pd.DataFrame(img_narray).to_csv(csv_dir, header=None, index=None)
 
 

@@ -22,9 +22,17 @@ __maintainer__ = "Yifei Xue"
 __email__ = "dla.ml@outlook.com"
 __status__ = "Production"
 
-print(check_output(["ls", tb.read_config('config.json', 'csv_data_root_directory')]).decode("utf8"))
+# print(check_output(["ls", tb.read_config('config.json', 'csv_data_root_directory')]).decode("utf8"))
 
 VGG_LAYER = 16
+
+
+# get class names of each class
+def getLabels(root_name):
+    im_dir = tb.read_config('config.json', root_name)
+    labels = check_output(["ls", im_dir]).decode("utf8")
+    print(labels)
+    print('test')
 
 
 # get every pixel value from image, and restored it as a numpu array
@@ -64,5 +72,7 @@ def main():
     # save the array to external file that will be used for Neural Network
     np.save('Input_NN_VGG' + str(VGG_LAYER) + '.npy', X)
 
+
 if __name__ == '__main__':
-    main()
+    # main()
+    getLabels('UCMerced_LandUse_directory')

@@ -4,9 +4,9 @@ import numpy as np
 import json
 import scipy.io as scio
 import pandas as pd
-import cv2
+# import cv2
 from matplotlib import pyplot as plt
-from osgeo import gdal
+# from osgeo import gdal
 
 
 def resolve_json(path):

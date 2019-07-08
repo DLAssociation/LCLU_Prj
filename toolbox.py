@@ -115,15 +115,9 @@ def get_annotation(sat_name='sat-6-full'):
     return note
 
 
-def load_data_and_labels(data_name, labels):
-    """
-    function to load data and labels
-    :param data:
-    :param labels:
-    :return:
-    """
-    data_df = pd.read_csv(data_name, header=None)
-    X = data_df.values.reshape((-1, 28, 28, 4)).clip(0, 255).astype(np.uint8)
+def load_data_and_labels(data, labels):
+    data_df = pd.read_csv(data, header=None)
+    X = data_df.values.reshape((-1,28,28,4)).clip(0,255).astype(np.uint8)
     labels_df = pd.read_csv(labels, header=None)
     Y = labels_df.values.getfield(dtype=np.int8)
     return X, Y
@@ -133,13 +127,13 @@ def run_once():
     only run once
     :return:
     """
-    img_x = get_imgs('sat-6-full', 'train_x')
-    csv_writer('sat-6_train_x', img_x)
+    # img_x = get_imgs('sat-6-full', 'train_x')
+    # csv_writer('sat-6_train_x', img_x)
+    load_data_and_labels('sat-6-full', 'train_x')
 
 
 def main():
     run_once()
-    print('test')
 
 
 if __name__ == '__main__':

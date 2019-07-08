@@ -2,6 +2,38 @@
 
 import toolbox as tb
 
-def mat2csv(mat_data):
+def img2csv(imgf, labelf, outf, n):
+    """
+    Convert
+    :param imgf:
+    :param labelf:
+    :param outf:
+    :param n:
+    :return:
+    """
+    f = open(imgf, "rb")
+    o = open(outf, "w")
+    l = open(labelf, "rb")
 
-    return csv_data
+    f.read(16)
+    l.read(8)
+    images = []
+
+    for i in range(n):
+        # function ord() return an integer of the given single Unicode character
+        image = [ord(l.read(1))]
+        for j in range(28*28):
+            image.append(ord(f.read(1)))
+        images.append(image)
+
+    for image in images:
+        o.write(",".join(str(pix) for pix in image)+"\n")
+    f.close()
+    o.close()
+    l.close()
+
+# img2csv("train-images-idx3-ubyte", "train-labels-idx1-ubyte",
+#         "mnist_train.csv", 60000)
+# img2csv("t10k-images-idx3-ubyte", "t10k-labels-idx1-ubyte",
+#         "mnist_test.csv", 10000)
+
